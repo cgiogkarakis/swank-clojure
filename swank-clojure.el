@@ -46,15 +46,15 @@
   :type 'string
   :group 'swank-clojure)
 
-(defcustom swank-clojure-jar-home "~/.swank-clojure/"
+(defcustom swank-clojure-jar-home "~/swank-clojure/"
   "The directory where the jars necessary to run swank-clojure are kept."
   :type 'string
   :group 'swank-clojure)
 
 (defun swank-clojure-default-classpath ()
   (append
-   (when (file-directory-p "~/.clojure")
-     (directory-files "~/.clojure" t ".jar$"))
+   (when (file-directory-p "~/clojure")
+     (directory-files "~/clojure" t ".jar$"))
    (when (file-directory-p swank-clojure-jar-home)
      (directory-files swank-clojure-jar-home t ".jar$"))))
 
@@ -62,7 +62,7 @@
   (swank-clojure-default-classpath)
   "The classpath from which clojure will load from (passed into
 java as the -cp argument). On default, it includes all jar files
-within ~/.clojure/ and ~/.swank-clojure"
+within ~/clojure/ and ~/swank-clojure"
   :type 'list
   :group 'swank-clojure)
 
@@ -174,7 +174,7 @@ will be used over paths too.)"
               (re-search-forward "^$" nil 'move)
               (delete-region (point-min) (+ 1 (point)))
               (write-file (concat swank-clojure-jar-home "/" jar-name))
-              (kill-buffer nil))    
+              (kill-buffer download-buffer))    
           (error
            ;; no recursive directory deletion on emacs 22 =(
            (dolist (j (directory-files swank-clojure-jar-home t "[^.]+$"))
